@@ -13,10 +13,11 @@ while counter <= TRY_LIMIT:
     guess_num = int(input(f'Попытка № {counter}. Введите число от {LOWER_LIMIT} до {UPPER_LIMIT}: '))
     if guess_num == num:
         print('Вы угадали!')
-        quit()
+        break
     elif guess_num < num:
         print('Вы не угадали. Загаданное число БОЛЬШЕ введенного.')
     elif guess_num > num:
         print('Вы не угадали. Загаданное число МЕНЬШЕ введенного.')
 
-print(f'Вы потратили все попытки. Загаданное число: {num}')
+else:
+    print(f'Вы потратили все попытки. Загаданное число: {num}')
