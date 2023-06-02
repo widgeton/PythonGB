@@ -25,7 +25,7 @@ match digit_amount:
         result = (num // 10) * (num % 10)
     case 3:
         form = 'трехзначное число'
-        result = (num % 10 * 100) + (num % 100 // 10 * 10) + (num // 100)
+        result = num % 10 * 100 + num % 100 // 10 * 10 + num // 100
 
 print(num, '-', form)
 print(num, '-', result)
