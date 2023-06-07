@@ -3,16 +3,14 @@
 Функцию hex используйте для проверки своего результата."""
 
 HEX = 16
-DCT = {10: 'A', 11: 'B', 12: 'C', 13: 'D', 14: 'E', 15: 'F'}
+DCT = {1: '1', 2: '2', 3: '3', 4: '4', 5: '5', 6: '6', 7: '7', 8: '8', 9: '9',
+       10: 'A', 11: 'B', 12: 'C', 13: 'D', 14: 'E', 15: 'F'}
 
 n = int(input('Введите число: '))
 num = n
 lst = []
 while num:
     num, rest = divmod(num, HEX)
-    if rest < 10:
-        lst.append(str(rest))
-    else:
-        lst.append(DCT[rest])
+    lst.append(DCT[rest])
 
 print(f'Результат: 0x{"".join(lst[::-1])}\nПроверка: {hex(n)}')

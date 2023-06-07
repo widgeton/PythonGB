@@ -4,17 +4,18 @@
 import fractions as frct
 import math
 
-n1 = input('Введите первую дробь в формате "a/b": ')
-num1 = [int(i.strip()) for i in n1.split('/')]
-n2 = input('Введите вторую дробь в формате "a/b": ')
-num2 = [int(i.strip()) for i in n2.split('/')]
+num1, denom1 = map(int, input('Введите первую дробь в формате "a/b": ').split('/'))
+num2, denom2 = map(int, input('Введите вторую дробь в формате "a/b": ').split('/'))
 
-s = [num1[0] * num2[1] + num2[0] * num1[1], num1[1] * num2[1]]
-s = [str(i // math.gcd(*s)) for i in s]
-m = [num1[0] * num2[0], num1[1] * num2[1]]
-m = [str(i // math.gcd(*m)) for i in m]
+num_s, denom_s = num1 * denom2 + num2 * denom1, denom1 * denom2
+gcd_s = math.gcd(num_s, denom_s)
+s = f'{num_s // gcd_s}/{denom_s // gcd_s}' if num_s % denom_s else num_s // denom_s
 
-fr_num1 = frct.Fraction(num1[0], num1[1])
-fr_num2 = frct.Fraction(num2[0], num2[1])
-print(f'{n1} + {n2} = {"/".join(s)}\nПроверка: {fr_num1 + fr_num2}')
-print(f'{n1} * {n2} = {"/".join(m)}\nПроверка: {fr_num1 * fr_num2}')
+num_m, denom_m = num1 * num2, denom1 * denom2
+gcd_m = math.gcd(num_m, denom_m)
+m = f'{num_m // gcd_m}/{denom_m // gcd_m}' if num_m % denom_m else num_m // denom_m
+
+fr_num1 = frct.Fraction(num1, denom1)
+fr_num2 = frct.Fraction(num2, denom2)
+print(f'{num1}/{denom1} + {num2}/{denom2} = {s}\nПроверка: {fr_num1 + fr_num2}')
+print(f'{num1}/{denom1} * {num2}/{denom2} = {m}\nПроверка: {fr_num1 * fr_num2}')
