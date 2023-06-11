@@ -3,6 +3,7 @@
 Не учитывать знаки препинания и регистр символов. За основу возьмите любую статью из википедии
 или из документации к языку.
 """
+from string import punctuation
 
 txt = """
 Действие BioShock происходит в 1960 году. Главный герой, молодой человек по имени Джек, в результате авиакатастрофы
@@ -18,15 +19,12 @@ txt = """
 способности, преодолевать препятствия несколькими способами, а также принимать неоднозначные с точки зрения морали
 решения — например, оставлять определённых персонажей в живых или убивать.
 """
+
 COUNT = 10
 
-lst = [i.strip(',.!?«»()—') for i in txt.split()]
+lst = [i.strip(punctuation) for i in txt.split()]
 frequently_dict = {i: lst.count(i) for i in set(lst)}
-frequently_dict = dict(sorted(frequently_dict.items(), key=lambda item: item[1], reverse=True))
+frequently_dict = dict(sorted(frequently_dict.items(), key=lambda item: item[1], reverse=True)[:COUNT])
 
-count = 0
 for key, value in frequently_dict.items():
     print(f'Слово "{key}" встречается {value} раз."')
-    count += 1
-    if count == COUNT:
-        break

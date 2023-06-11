@@ -17,11 +17,11 @@ dct = {'Dan': ('tent', 'match', 'knife', 'sleepbag', 'mug', 'bowl', 'spoon', 'fo
        }
 
 first = list(dct.keys())[0]
-taken_by_each = set(dct[first])
+all_things = set(dct[first])
 present_unique = set()
 not_present_unique = set()
 for key_i in dct:
-    taken_by_each |= set(dct[key_i])
+    all_things |= set(dct[key_i])
 
     present_unique_i = set(dct[key_i])
     not_present_unique_i = set()
@@ -40,8 +40,8 @@ for key in dct:
     if things:
         names[key] = things
 
-print('Вещи которые взяли каждый из друзей:')
-print(*taken_by_each, sep=', ')
+print('Все вещи вместе взятые друзьями:')
+print(*all_things, sep=', ')
 print('Вещи присутствующие уникально у каждого друга:')
 print(*present_unique, sep=', ')
 print('Вещи уникально отсутствующие (есть у всех, кроме одного):')
