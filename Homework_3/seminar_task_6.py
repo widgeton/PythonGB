@@ -6,9 +6,8 @@
 слова был один пробел между ним и номером строки.
 """
 
-txt = input('Введите текст: ').split()
-txt.sort()
-max_len = max([len(i) for i in txt])
+(txt := input('Введите текст: ').split()).sort()
+max_len = len(max(txt, key=len))
 
 for i, item in enumerate(txt, 1):
     print(i, f'{item:>{max_len}}')

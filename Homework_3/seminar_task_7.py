@@ -11,9 +11,7 @@ frequency_dict_1 = {}
 for item in txt:
     frequency_dict_1[item] = frequency_dict_1.get(item, 0) + 1
 
-frequency_dict_2 = {}
-for item in set(txt):
-    frequency_dict_2[item] = txt.count(item)
+frequency_dict_2 = {item: txt.count(item) for item in set(txt)}
 
 print('Частотный словарь БЕЗ использования метода count:', frequency_dict_1, sep='\n')
 print('Частотный словарь С использованием метода count:', frequency_dict_2, sep='\n')

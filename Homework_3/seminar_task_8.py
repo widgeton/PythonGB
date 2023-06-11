@@ -21,7 +21,7 @@ taken_by_each = set(dct[first])
 present_unique = set()
 not_present_unique = set()
 for key_i in dct:
-    taken_by_each &= set(dct[key_i])
+    taken_by_each |= set(dct[key_i])
 
     present_unique_i = set(dct[key_i])
     not_present_unique_i = set()
