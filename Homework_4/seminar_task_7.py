@@ -6,7 +6,7 @@
 
 
 def are_profitable(companies: dict[str:list[int]]):
-    return all(0 if i < 0 else i for i in map(sum, companies.values()))
+    return all(map(lambda x: sum(x) > 0, companies.values()))
 
 
 if __name__ == '__main__':
