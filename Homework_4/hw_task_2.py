@@ -3,11 +3,10 @@
 переданного аргумента, а значение — имя аргумента. Если
 ключ не хешируем, используйте его строковое представление.
 """
-import typing as tp
 
 
 def func(*, a, b, c):
-    return {value if isinstance(value, tp.Hashable) else str(value): key for key, value in locals().items()}
+    return {str(value) if value.__hash__ is None else value: key for key, value in locals().items()}
 
 
 if __name__ == '__main__':

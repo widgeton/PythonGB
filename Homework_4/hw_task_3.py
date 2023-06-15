@@ -44,6 +44,7 @@ def withdraw_rich_tax(*, storage: list):
         tax = round(storage[1] * RICH_RATE, 2)
         storage[1] = storage[1] - tax
         print(f'Снят налог на богатство: {tax}')
+        show_storage(storage=storage)
 
 
 @logger('Запрос на ввод операции')
@@ -66,7 +67,7 @@ def get_money() -> int | None:
 
 
 @logger('Пополнение счета')
-def add_money(money: int, *, storage: list,):
+def add_money(money: int, *, storage: list, ):
     storage[1] = storage[1] + money
 
 
@@ -116,6 +117,7 @@ def main(storage: list[int, float]):
         if operation is None:
             continue
         if operation == ESCAPE:
+            print('До свидания!')
             return
         make_transaction(operation, storage)
 
