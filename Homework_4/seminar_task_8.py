@@ -9,7 +9,7 @@ def func():
     dct = globals()
     for key in [*dct.keys()]:
         if key.endswith('s') and len(key) > 1:
-            dct[key.rstrip('s')], dct[key] = dct[key], None
+            dct[key[:-1]], dct[key] = dct[key], None
 
 
 if __name__ == '__main__':
