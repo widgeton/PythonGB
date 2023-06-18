@@ -5,7 +5,7 @@
 
 
 def get_dict(names, rates, percents):
-    return {i[0]: i[1] * float(i[2].strip('%')) / 100 for i in zip(names, rates, percents)}
+    return {name: rate * float(percent [:-1]) / 100 for name, rate, percent in zip(names, rates, percents)}
 
 
 if __name__ == '__main__':
