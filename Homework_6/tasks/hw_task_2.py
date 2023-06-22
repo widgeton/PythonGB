@@ -12,20 +12,19 @@ import itertools as itr
 
 
 def is_right(kit: set[tuple[int, int]]):
-    for item in kit:
-        for i in range(1, 8):
-            if (item[0], item[1] + i) in kit or (item[0], item[1] - i) in kit or \
-                    (item[0] + i, item[1]) in kit or (item[0] - i, item[1]) in kit or \
-                    (item[0] + i, item[1] + i) in kit or (item[0] - i, item[1] + i) in kit or \
-                    (item[0] + i, item[1] - i) in kit or (item[0] - i, item[1] - i) in kit:
+    for item_i in kit:
+        for item_j in kit:
+            x, y = abs(item_j[0] - item_i[0]), abs(item_j[1] - item_i[1])
+            if not (x and y and x - y) and item_j != item_i:
                 return False
     return True
 
 
 def get_random_set_of_queens():
     queens = set()
-    while len(queens) < 8:
-        queens.add((rnd.randint(0, 7), rnd.randint(0, 7)))
+    N = 8
+    while len(queens) < N:
+        queens.add((rnd.randint(0, N - 1), rnd.randint(0, N - 1)))
     return queens
 
 
