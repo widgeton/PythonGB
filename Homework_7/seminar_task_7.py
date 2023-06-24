@@ -4,15 +4,16 @@
 import os
 
 
-def group(dir_, dct):
-    files = [file for file in os.listdir(dir_) if os.path.isfile(os.path.join(dir_, file))]
-    for fold, exts in dct.items():
-        fold = os.path.join(dir_, fold)
-        if not os.path.isdir(fold):
-            os.makedirs(fold)
-        for file in files:
-            if file.split('.')[1] in exts:
-                os.replace(os.path.join(dir_, file), os.path.join(fold, file))
+def group(dct, dir_=os.getcwd()):
+    if os.path.isdir(dir_):
+        files = [file for file in os.listdir(dir_) if os.path.isfile(os.path.join(dir_, file))]
+        for fold, exts in dct.items():
+            fold = os.path.join(dir_, fold)
+            if not os.path.isdir(fold):
+                os.makedirs(fold)
+            for file in files:
+                if file.split('.')[1] in exts:
+                    os.replace(os.path.join(dir_, file), os.path.join(fold, file))
 
 
 if __name__ == '__main__':
@@ -20,4 +21,4 @@ if __name__ == '__main__':
            'Изображение': ('png', 'jpg', 'jpeg'),
            'Текст': ('txt', 'bin'),
            }
-    group('Fold', dct)
+    group(dct, 'Fold')
