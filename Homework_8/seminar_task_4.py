@@ -15,7 +15,8 @@ def func(csv_file, json_file):
         header_id, header_name, header_access = file[0]
         lst = []
         for id, name, access in file[1:]:
-            lst.append({header_id: id, header_name: name, header_access: access, 'hash': hash(name + id)})
+            lst.append({header_id: f'{id:0>10s}', header_name: name.capitalize(),
+                        header_access: access, 'hash': hash(name + id)})
 
         json.dump(lst, json_f, ensure_ascii=False, indent=2)
 
