@@ -8,8 +8,6 @@ import json
 import os.path
 import random as rnd
 
-ARGS_FILE = 'args.csv'
-
 
 def take_args_from_file(csv_file):
     with open(csv_file, 'r', encoding='utf-8', newline='') as f:
@@ -46,7 +44,6 @@ def log(json_file):
     return deco
 
 
-@take_args_from_file(ARGS_FILE)
 @log('log.json')
 def get_roots_of_quadratic_equation(a, b, c) -> tuple[float | complex, float | complex] | tuple[float]:
     D = b ** 2 - 4 * a * c
@@ -63,5 +60,5 @@ def write_rnd_nums_in_csv(min_num, max_num, csv_file, lines=200):
 
 
 if __name__ == '__main__':
-    write_rnd_nums_in_csv(1, 10, ARGS_FILE)
-    get_roots_of_quadratic_equation()
+    write_rnd_nums_in_csv(1, 10, 'args.csv')
+    take_args_from_file('args.csv')(get_roots_of_quadratic_equation)()
