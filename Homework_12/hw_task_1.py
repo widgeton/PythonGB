@@ -78,6 +78,10 @@ class Student:
             for subject_name, mark, tests_results in [*csv.reader(file)][1:]:
                 self._subjects.append(Subject(subject_name, int(mark), eval(tests_results)))
 
+    @property
+    def subjects(self):
+        return self._subjects
+
     def get_avg_subject_tests_results(self, subject_name):
         for subject in self._subjects:
             if subject.name == subject_name:
