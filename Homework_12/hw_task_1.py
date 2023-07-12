@@ -7,49 +7,57 @@
 import csv
 
 
+class Range:
+    def __init__(self, low_limit, high_limit):
+        self.low_limit = low_limit
+        self.high_limit = high_limit
+
+    def __set_name__(self, owner, name):
+        self.name = f'_{name}'
+
+    def __get__(self, instance, owner):
+        return getattr(instance, self.name)
+
+    def __set__(self, instance, value: int | list[int]):
+        attr_value = getattr(instance, self.name)
+
+        if isinstance(value, int):
+            self.check_range(value)
+        elif isinstance(value, list):
+            for item in value:
+                self.check_range(item)
+
+        if isinstance(attr_value, list) and isinstance(value, int):
+            attr_value.append(value)
+            value = attr_value
+        elif isinstance(attr_value, list) and isinstance(value, list):
+            attr_value.extend(value)
+            value = attr_value
+
+        if isinstance(attr_value, int) and isinstance(value, list):
+            raise ValueError("Этому полю нельзя присвоить значение типа 'list'")
+
+        setattr(instance, self.name, value)
+
+    def check_range(self, value):
+        if not self.low_limit <= value <= self.high_limit:
+            raise ValueError(f'Значение должно быть в диапазоне от {self.low_limit} до {self.high_limit}')
+
+
 class Subject:
-    __low_mark = 2
-    __high_mark = 5
-    __low_test_result = 0
-    __high_test_result = 100
+    tests_results = Range(0, 100)
+    mark = Range(2, 5)
 
     def __init__(self, name: str, mark: int, tests_results: list[int]):
         self._name = name
-        self._tests_results = []
         self.tests_results = tests_results
         self.mark = mark
 
-    @property
-    def name(self):
-        return self._name
+    def __getattr__(self, item):
+        return None
 
-    @property
-    def tests_results(self):
-        return self._tests_results
-
-    @tests_results.setter
-    def tests_results(self, value: list[int] | int):
-        if isinstance(value, list):
-            for res in value:
-                self._check_value_in_range(res, self.__low_test_result, self.__high_test_result)
-            self._tests_results.extend(value)
-        else:
-            self._check_value_in_range(value, self.__low_test_result, self.__high_test_result)
-            self._tests_results.append(value)
-
-    @property
-    def mark(self):
-        return self._mark
-
-    @mark.setter
-    def mark(self, value):
-        self._check_value_in_range(value, self.__low_mark, self.__high_mark)
-        self._mark = value
-
-    @staticmethod
-    def _check_value_in_range(value, start, stop):
-        if not start <= value <= stop:
-            raise ValueError(f'Значение должно быть в диапазоне от {start} до {stop}')
+    def get_avg_tests_results(self):
+        return sum(self.tests_results) / len(self.tests_results)
 
 
 class Check:
@@ -70,26 +78,31 @@ class Student:
 
     def __init__(self, full_name, subjects_csv_file):
         self.full_name = full_name
-        self._subjects = []
-        self._set_subjects(subjects_csv_file)
+        self._subjects = self._get_subjects_dict(subjects_csv_file)
 
-    def _set_subjects(self, subjects_csv_file):
+    def _get_subjects_dict(self, subjects_csv_file):
+        subjects_dict = {}
         with open(subjects_csv_file, 'r', encoding='utf-8', newline='') as file:
-            for subject_name, mark, tests_results in [*csv.reader(file)][1:]:
-                self._subjects.append(Subject(subject_name, int(mark), eval(tests_results)))
+            for subject_name, mark, tests_results in [*csv.reader(file, delimiter=';')][1:]:
+                subjects_dict[subject_name] = Subject(subject_name, int(mark), self.parse_list(tests_results))
+        return subjects_dict
 
-    @property
-    def subjects(self):
-        return self._subjects
+    @staticmethod
+    def parse_list(line: str):
+        return [*map(int, line.strip('[]').split(', '))]
+
+    def get_subject_names(self):
+        return [*self._subjects.keys()]
+
+    def get_subject(self, subject_name):
+        return self._subjects[subject_name]
 
     def get_avg_subject_tests_results(self, subject_name):
-        for subject in self._subjects:
-            if subject.name == subject_name:
-                return sum(subject.tests_results) / len(subject.tests_results)
+        return self._subjects[subject_name].get_avg_tests_results()
 
     def get_avg_mark(self):
         sum_ = 0
-        for subject in self._subjects:
+        for subject in self._subjects.values():
             sum_ += subject.mark
         return sum_ / len(self._subjects)
 
