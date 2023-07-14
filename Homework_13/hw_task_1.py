@@ -53,7 +53,7 @@ class MatrixException(MyException):
 
 
 class MatrixOperationException(MyException):
-    _message = 'Ошибка математической операции!'
+    _message = 'Ошибка математической операции'
 
     def __init__(self, operation, matrix=None, matrix_to_add=None):
         self.operation = operation
@@ -75,7 +75,7 @@ class MatrixOperationException(MyException):
             str_matrix_to_add = "\n".join(map(str, self.matrix_to_add))
             return f'{self._message}\nНевозможно операция {self.operation} с матрицей:\n{str_matrix_to_add}'
 
-        return self._message
+        return f'{self._message} {self.operation}!'
 
 
 class AddMatrixException(MatrixOperationException):
