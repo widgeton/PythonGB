@@ -5,6 +5,7 @@
 Также экземпляр должен сообщать средний балл по тестам для каждого предмета и по оценкам всех предметов вместе взятых.
 """
 import csv
+from Homework_13.hw_task_1 import RangeException, NameException
 
 
 class Range:
@@ -41,7 +42,7 @@ class Range:
 
     def check_range(self, value):
         if not self.low_limit <= value <= self.high_limit:
-            raise ValueError(f'Значение должно быть в диапазоне от {self.low_limit} до {self.high_limit}')
+            raise RangeException(self.low_limit, self.high_limit)
 
 
 class Subject:
@@ -67,10 +68,10 @@ class Check:
     def __get__(self, instance, owner):
         return getattr(instance, self.name)
 
-    def __set__(self, instance, value: str):
-        if not value.isalpha() and value.istitle():
-            raise ValueError('Имя должно начинаться с заглавной буквы и иметь только буквы')
-        setattr(instance, self.name, value)
+    def __set__(self, instance, name: str):
+        if not name.isalpha() and name.istitle():
+            raise NameException(name)
+        setattr(instance, self.name, name)
 
 
 class Student:
