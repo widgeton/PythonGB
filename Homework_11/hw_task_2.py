@@ -1,6 +1,7 @@
 """Создайте класс Матрица. Добавьте методы для:
 вывода на печать, сравнения, сложения, умножения матриц.
 """
+from Homework_13.hw_task_1 import MatrixException, AddMatrixException, MulMatrixException
 
 
 class Matrix:
@@ -27,7 +28,7 @@ class Matrix:
         if len(self.matrix) == len(other.matrix) and len(self.matrix[0]) == len(other.matrix[0]):
             return Matrix([[self_j + other.matrix[i][j] for j, self_j in enumerate(self_i)] for i, self_i in
                            enumerate(self.matrix)])
-        raise ValueError
+        raise AddMatrixException(self.matrix, other.matrix)
 
     def __mul__(self, other):
         if len(self.matrix) == len(other.matrix[0]) and len(self.matrix[0]) == len(other.matrix):
@@ -42,7 +43,7 @@ class Matrix:
                 lst.append(inner_lst)
             return Matrix(lst)
 
-        raise ValueError
+        raise MulMatrixException(self.matrix, other.matrix)
 
     def __str__(self):
         output = ''
@@ -58,4 +59,4 @@ class Matrix:
         length = len(matrix[0])
         for row in matrix:
             if len(row) != length:
-                raise ValueError
+                raise MatrixException(matrix)
